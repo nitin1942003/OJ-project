@@ -1,50 +1,32 @@
 import { useAuth } from "../hooks/useAuth";
-import { useNavigate, Link } from "react-router-dom";
-import { logout } from "../services/authService";
-
+import { Link } from 'react-router-dom';
 
 export const WelcomePage = () => {
-    const { auth, setAuth } = useAuth()
-    const navigate = useNavigate()
+    const { auth } = useAuth();
 
-    const logoff = async () => {
-        try {
-            await logout()
-            setAuth({})
-            navigate('/')
-        } catch (error) {
-            console.error('error during logout ', error)
-        }
-    }
     return (
-        <>
-            <div className='min-h-screen flex flex-col'>
-                <nav className='bg-gray-500 text-white p-4 flex justify-between items-center'>
-                    <div className='flex space-x-4'>
-                        <Link
-                            to='/profile'
-                            className='hover:underline'
-                        >
-                            Profile
-                        </Link>
-                        <Link
-                            to='/problems'
-                            className='hover:underline'
-                        >
-                            Problems
-                        </Link>
-                    </div>
-                    
-                </nav>
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 text-white">
+            <main className="flex flex-col items-center p-8 bg-white rounded-lg shadow-lg text-center max-w-2xl">
+                <h1 className="text-4xl font-extrabold text-indigo-700">
+                    Welcome, {auth.user?.firstName}!
+                </h1>
+                <p className="mt-4 text-lg text-gray-700">
+                    You are logged in and ready to enhance your coding skills.
+                </p>
 
-                <main className='flex-grow p-8'>
-                    <h1 className='text-3xl font-bold'>
-                        Welcome, {auth.user?.firstName}
-                    </h1>
-                    <p className='mt-2 text-lg'>You are logged in!</p>
-                    <br />
-                </main>
-            </div>
-        </>
+                <p className="mt-2 text-gray-700">
+                    Explore problems created by others or challenge yourself by creating your own.
+                </p>
+
+                <div className="mt-6 space-x-4">
+                    <Link to="/problems">
+                        <button className="bg-indigo-700 text-white py-2 px-4 rounded-full font-semibold hover:bg-indigo-800 transition-colors">
+                            Explore Problems
+                        </button>
+                    </Link>
+                    
+                </div>
+            </main>
+        </div>
     );
 };

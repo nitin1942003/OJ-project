@@ -33,7 +33,7 @@ export const register = async (req, res) => {
 
         //Generate a JWT token
         const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        console.log('Generated Token in register:', token);
+        console.log('Generated Token in register.');
         //Respond with the token and user information
         res.status(201).json({ token, user: newUser })
     } catch (error) {
@@ -61,7 +61,7 @@ export const login = async (req, res) => {
 
         //Generate a JWT token
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
-        console.log('Generated Token in login:', token);
+        console.log('Generated Token in login.');
         //Store JWT token in an HTTP-only cookie
         const cookieOptions = {
             expiresIn: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),

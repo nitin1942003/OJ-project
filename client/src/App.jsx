@@ -8,7 +8,7 @@ import LoginForm from "./components/LoginForm"
 import { WelcomePage } from './components/Welcome'
 import { ProblemsPage } from './components/Problems'
 import { ProblemDetailPage } from './components/Problem'
-
+import {ProfilePage} from './components/Profile'
 
 
 function App() {
@@ -22,6 +22,7 @@ function App() {
         {/* private routes */}
         <Route element={<RequireAuth />}>
           <Route path="/" element={<WelcomePage />} />
+          <Route path="profile" element={<ProfilePage />} />
           <Route path="problems" element={<ProblemsPage />} />
           <Route path="problems/:id" element={<ProblemDetailPage />} />
         </Route>

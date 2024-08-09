@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getProblem, run, judge } from '../services/problemService';
 
+
+
 export const ProblemDetailPage = () => {
     const { id } = useParams();
     const [problem, setProblem] = useState(null); // Initialized as null to check loading state
@@ -11,6 +13,15 @@ export const ProblemDetailPage = () => {
     const [loading, setLoading] = useState(false);
     const [language, setLanguage] = useState('java');
     const [testResults, setTestResults] = useState([]);
+
+    const [expandedIndex, setExpandedIndex] = useState(null);
+    const toggleDetails = (index) => {
+        if (expandedIndex === index) {
+            setExpandedIndex(null); // Collapse if the same button is clicked again
+        } else {
+            setExpandedIndex(index); // Expand the selected details
+        }
+    };
 
     useEffect(() => {
         const fetchProblem = async () => {
@@ -122,13 +133,22 @@ export const ProblemDetailPage = () => {
                         <h2 className="text-xl font-semibold mb-2">Verdict</h2>
                         {loading && <div>Loading...</div>}
                         {testResults.map((result, index) => (
-                            <div key={index}>
-                                <h3>{result.title}</h3>
-                                <p>Input: {result.input}</p>
-                                <p>Expected Output: {result.expectedOutput}</p>
-                                <p>User Output: {result.userOutput}</p>
-                                <p>Correct: {result.isCorrect.toString()}</p>
-                                <br />
+                            <div key={index} className="mb-4">
+                                <button
+                                    onClick={() => toggleDetails(index)}
+                                    className={`w-30 text-left px-4 py-2 font-semibold rounded focus:outline-none ${result.isCorrect ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+                                        }`}
+                                >
+                                    <span className="truncate">Test Case {index}</span>
+                                </button>
+
+                                {expandedIndex === index && (
+                                    <div className="mt-2 pl-4">
+                                        <p><strong>Input:</strong> {result.input}</p>
+                                        <p><strong>Expected Output:</strong> {result.expectedOutput}</p>
+                                        <p><strong>User Output:</strong> {result.userOutput}</p>
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>

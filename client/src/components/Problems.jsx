@@ -177,11 +177,11 @@ export const ProblemsPage = () => {
               </button>
             </div>
           ))}
-          <button onClick={handleAddTestCase} className="mb-4 px-4 py-2 bg-blue-500 text-white rounded">
+          <button onClick={handleAddTestCase} className="mb-4 px-4 py-2 bg-blue-500 text-white rounded ">
             Add Test Case
           </button>
 
-          <button onClick={handleCreateProblem} className="px-4 py-2 bg-green-500 text-white rounded">
+          <button onClick={handleCreateProblem} className="px-4 py-2 bg-green-500 text-white rounded ">
             Create Problem
           </button>
         </div>
