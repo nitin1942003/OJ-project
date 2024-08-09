@@ -56,20 +56,20 @@ export const register = async (req, res) => {
 // Email verification controller
 export const verifyEmail = async (req, res) => {
     try {
-        const user = await User.findOne({_id:req.params.id});
-        if(!user) return res.status(400).send({message: "Invalid link"});
+        const user = await User.findOne({_id: req.params.id});
+        if(!user) {
+            return res.status(400).send({message: "Invalid link"});
+        }
 
-        const token = await Token.findOne({ userId:user._id, token: req.params.token });
+        const token = await Token.findOne({ userId: user._id, token: req.params.token });
         if (!token) {
             return res.status(400).json({ message: 'Invalid or expired token' });
         }
 
         await User.findByIdAndUpdate(user._id, { $set: { verified: true } }, { new: true });
-        await Token.deleteOne({ _id: token._id })
-
+        
         res.status(200).json({ message: 'Email verified successfully' });
     } catch (error) {
-        console.error("Error during email verification:", error);
         res.status(500).json({ message: 'Server error', error })
     }
 }
@@ -100,7 +100,7 @@ export const login = async (req, res) => {
                 // Send the verification email
                 await sendEmail(user.email, "Verify Your Email", url);
             }
-            return res.status(400).json({ message: 'A verification email is sent to your email.' });
+            return res.status(402).json({ message: 'A verification email is sent to your email.' });
         }
 
         // Compare the password

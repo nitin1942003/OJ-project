@@ -121,8 +121,8 @@ const RegistrationForm = () => {
                     <div className="bg-white p-8 rounded shadow-md text-center">
                         <h1 className="text-2xl font-bold mb-4">Success!</h1>
                         <p className="text-lg">
-                            <a href="/login" className="text-indigo-500 hover:text-indigo-700 underline">
-                                Sign In
+                            <a className="text-indigo-500">
+                                Verification link is sent to your email-id.
                             </a>
                         </p>
                     </div>

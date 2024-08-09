@@ -124,7 +124,7 @@ export const ProblemsPage = () => {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Problems</h1>
 
-      <button className="mb-4 px-4 py-2 bg-indigo-600 text-white rounded" onClick={handleToggleForm}>
+      <button className="mb-4 px-4 py-2 bg-purple-600 text-white rounded" onClick={handleToggleForm}>
         {showCreateForm ? 'Hide Form' : 'Create New Problem'}
       </button>
 
@@ -199,10 +199,10 @@ export const ProblemsPage = () => {
                 </h2>
                 <p className="break-words">{problem.description}</p>
                 <div className="mt-4 flex space-x-2">
-                  <button onClick={() => handleEdit(problem)} className="px-4 py-2 bg-yellow-500 text-white rounded">
+                  <button onClick={() => handleEdit(problem)} className="px-4 py-2 bg-blue-500 text-white rounded">
                     Edit
                   </button>
-                  <button onClick={() => handleDelete(problem._id)} className="px-4 py-2 bg-red-500 text-white rounded">
+                  <button onClick={() => handleDelete(problem._id)} className="px-4 py-2 bg-indigo-700 text-white rounded">
                     Delete
                   </button>
                 </div>

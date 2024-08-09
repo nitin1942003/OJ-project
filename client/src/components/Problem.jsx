@@ -118,13 +118,13 @@ export const ProblemDetailPage = () => {
                     <div className="flex flex-col space-y-4">
                         <button
                             onClick={handleRunCode}
-                            className="mb-4 px-4 py-2 bg-green-500 text-white rounded"
+                            className="mb-4 px-4 py-2 bg-blue-500 text-white rounded"
                         >
                             Run Code
                         </button>
                         <button
                             onClick={handleJudgeCode}
-                            className="mb-4 px-4 py-2 bg-green-500 text-white rounded"
+                            className="mb-4 px-4 py-2 bg-indigo-500 text-white rounded"
                         >
                             Judge Code
                         </button>

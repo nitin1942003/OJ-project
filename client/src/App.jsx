@@ -9,7 +9,7 @@ import { WelcomePage } from './components/Welcome'
 import { ProblemsPage } from './components/Problems'
 import { ProblemDetailPage } from './components/Problem'
 import {ProfilePage} from './components/Profile'
-
+import EmailVerification from './components/EmailVerification';
 
 function App() {
   return (
@@ -19,6 +19,7 @@ function App() {
         <Route path="login" element={<LoginForm />} />
         <Route path="register" element={<RegistrationForm />} />
         <Route path="unauthorized" element={<Unauthorized />} />
+        <Route path="auth/:id/verify-email/:token" element={<EmailVerification />} />
         {/* private routes */}
         <Route element={<RequireAuth />}>
           <Route path="/" element={<WelcomePage />} />

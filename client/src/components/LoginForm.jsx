@@ -42,6 +42,8 @@ const LoginForm = () => {
                 setErrorMessage('Missing Email or Password');
             } else if (error.response?.status === 401) {
                 setErrorMessage('Unauthorized');
+            } else if (error.response?.status === 402) {
+                setErrorMessage('Your email verification is pending.');
             } else {
                 setErrorMessage('Login failed');
             }
