@@ -29,7 +29,10 @@ const Layout = () => {
                     )}
 
                     <div className="text-center flex-1">
+                        <Link to="/">
                         Ru<span className="bg-white text-indigo-700 px-2 rounded">n it in</span>
+                        </Link>
+                        
                     </div>
 
                     <div className="flex items-center space-x-2">

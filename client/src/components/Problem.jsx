@@ -87,7 +87,7 @@ export const ProblemDetailPage = () => {
                     <textarea
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
-                        placeholder="Input"
+                        placeholder="Custom Input"
                         className="block w-full h-60 p-2 border border-gray-300 rounded overflow-y-auto"
                     />
                     <div className="w-full h-72 p-2 border border-gray-300 rounded overflow-y-auto mt-4">
