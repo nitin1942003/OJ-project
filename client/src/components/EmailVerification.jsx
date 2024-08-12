@@ -12,7 +12,7 @@ const EmailVerification = () => {
         let isMounted = true;
         const verifyEmail = async () => {
             try {
-                if(isMounted){const response = await axios.get(`http://localhost:5000/auth/${id}/verify-email/${token}`);
+                if(isMounted){const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/auth/${id}/verify-email/${token}`);
 
                 setMessage(response.data.message);
             }

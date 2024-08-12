@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-const REGISTER_URL = 'http://localhost:5000/auth/register'
-const LOGIN_URL = 'http://localhost:5000/auth/login'
-const LOGOUT_URL = 'http://localhost:5000/auth/logout'
+const REGISTER_URL = `${import.meta.env.VITE_BACKEND_URL}/auth/register`
+const LOGIN_URL = `${import.meta.env.VITE_BACKEND_URL}/auth/login`
+const LOGOUT_URL = `${import.meta.env.VITE_BACKEND_URL}/auth/logout`
 
 const axios_options = { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
 

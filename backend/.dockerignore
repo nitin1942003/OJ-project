@@ -1,5 +1,5 @@
 node_modules
-.env
+
 helpers/codes
 helpers/outputs
 helpers/inputs

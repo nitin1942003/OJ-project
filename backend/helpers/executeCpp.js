@@ -23,7 +23,7 @@ const executeCpp = (filepath, input_filePath) => {
     return new Promise((resolve, reject) => {
         // Command to compile and execute the C++ file
         exec(
-            `g++ "${filepath}" -o "${outPath}" && cd "${outputPath}" && .\\${jobId}.exe < "${input_filePath}"`,
+            `g++ "${filepath}" -o "${outPath}" && cd "${outputPath}" && ./${jobId}.exe < "${input_filePath}"`,
             (error, stdout, stderr) => {
                 if (error) {
                     reject({ error, stderr });
