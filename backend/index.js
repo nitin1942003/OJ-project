@@ -14,7 +14,7 @@ const app = express()
 const PORT = process.env.PORT;
 
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: process.env.NODE_ENV === 'production' ? 'https://run-it-in.vercel.app' : 'http://localhost:5173',
     credentials: true,
 };
 
@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
 // Connect to the database and start the server
 DBConnection().then(() => {
     app.listen(PORT, () => {
-        console.log(`Server is running on http://localhost:${PORT}`)
+        console.log(`Server is running on ${process.env.NODE_ENV === 'production' ? process.env.CLIENT_URL : `http://localhost:${PORT}`}`);
     })
 }).catch((error) => {
     console.error('Failed to connect to the database:', error)
