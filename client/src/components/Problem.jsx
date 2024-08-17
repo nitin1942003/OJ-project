@@ -44,6 +44,7 @@ export const ProblemDetailPage = () => {
         try {
             const response = await run({ language, code, input });
             setOutput(response.output);
+            setView('output'); // Automatically switch to output view
         } catch (error) {
             console.error('Error running code:', error);
         } finally {
