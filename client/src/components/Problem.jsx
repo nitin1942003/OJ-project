@@ -4,7 +4,7 @@ import { getProblem, run, judge } from '../services/problemService';
 
 export const ProblemDetailPage = () => {
     const { id } = useParams();
-    const [problem, setProblem] = useState(null); // Initialized as null to check loading state
+    const [problem, setProblem] = useState(null);
     const [input, setInput] = useState('');
     const [code, setCode] = useState('');
     const [output, setOutput] = useState('');
@@ -12,13 +12,13 @@ export const ProblemDetailPage = () => {
     const [language, setLanguage] = useState('java');
     const [testResults, setTestResults] = useState([]);
     const [expandedIndex, setExpandedIndex] = useState(null);
-    const [view, setView] = useState('input'); // New state for toggling views
+    const [view, setView] = useState('input');
 
     const toggleDetails = (index) => {
         if (expandedIndex === index) {
-            setExpandedIndex(null); // Collapse if the same button is clicked again
+            setExpandedIndex(null);
         } else {
-            setExpandedIndex(index); // Expand the selected details
+            setExpandedIndex(index);
         }
     };
 
@@ -26,7 +26,6 @@ export const ProblemDetailPage = () => {
         const fetchProblem = async () => {
             try {
                 const response = await getProblem(id);
-                console.log(response);
                 setProblem(response);
             } catch (error) {
                 console.error('Error fetching problem:', error);
@@ -44,6 +43,7 @@ export const ProblemDetailPage = () => {
         try {
             const response = await run({ language, code, input });
             setOutput(response.output);
+            setView('output'); // Automatically switch to output view
         } catch (error) {
             console.error('Error running code:', error);
         } finally {
