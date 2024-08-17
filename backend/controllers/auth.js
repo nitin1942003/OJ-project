@@ -94,7 +94,7 @@ export const login = async (req, res) => {
                 }).save();
         
                 // Create a verification URL
-                const url = `${process.env.CLIENT_URL}auth/${user.id}/verify-email/${token.token}`;
+                const url = `${process.env.CLIENT_URL}/auth/${user.id}/verify-email/${token.token}`;
         
         
                 // Send the verification email
@@ -115,8 +115,10 @@ export const login = async (req, res) => {
 
         // Store JWT token in an HTTP-only cookie
         const cookieOptions = {
-            expiresIn: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
-            httpOnly: true // Can only be changed by server not client
+            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+            httpOnly: true, // Can only be changed by server not client
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: "None"
         }
         // Send the response and token in the cookie
         res.status(200).cookie('token', token, cookieOptions).json({
