@@ -34,19 +34,31 @@ export const register = async (req, res) => {
 
         // Generate a verification token
         const token = await new Token({
-			userId: newUser._id,
-			token: crypto.randomBytes(32).toString("hex"),
-		}).save();
+            userId: newUser._id,
+            token: crypto.randomBytes(32).toString("hex"),
+        }).save();
 
         // Create a verification URL
-        const url = `${process.env.CLIENT_URL}auth/${newUser.id}/verify-email/${token.token}`;
+        const url = `${process.env.CLIENT_URL}/auth/${newUser.id}/verify-email/${token.token}`;
 
+        // Create an HTML content for the verification email
+        const htmlContent = `
+    <div style="font-family: Arial, sans-serif; color: #333;">
+        <h2 style="color: #4CAF50;">Welcome to Run it in!</h2>
+        <p>Hi ${newUser.firstname},</p>
+        <p>Thank you for registering on our platform. Please click the button below to verify your email address:</p>
+        <p><a href="${url}" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Verify Email</a></p>
+        <p>If the button doesn't work, you can also verify your email by clicking on the following link:</p>
+        <p><a href="${url}">${url}</a></p>
+        <p>If you did not create an account, no further action is required.</p>
+        <p>Best regards,<br/>The Run it in Team</p>
+    </div>
+`;
 
         // Send the verification email
-        await sendEmail(newUser.email, "Verify Your Email", url);
+        await sendEmail(newUser.email, "Verify Your Email", `Please verify your email by clicking the following link: ${url}`, htmlContent);
 
         res.status(201).json({ message: "User registered. Please check your email to verify your account." });
-
     } catch (error) {
         console.log(error)
         res.status(500).json({ message: 'Server error', error })
@@ -56,9 +68,9 @@ export const register = async (req, res) => {
 // Email verification controller
 export const verifyEmail = async (req, res) => {
     try {
-        const user = await User.findOne({_id: req.params.id});
-        if(!user) {
-            return res.status(400).send({message: "Invalid link"});
+        const user = await User.findOne({ _id: req.params.id });
+        if (!user) {
+            return res.status(400).send({ message: "Invalid link" });
         }
 
         const token = await Token.findOne({ userId: user._id, token: req.params.token });
@@ -67,7 +79,7 @@ export const verifyEmail = async (req, res) => {
         }
 
         await User.findByIdAndUpdate(user._id, { $set: { verified: true } }, { new: true });
-        
+
         res.status(200).json({ message: 'Email verified successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error })
@@ -86,17 +98,17 @@ export const login = async (req, res) => {
 
         // Check if email is verified
         if (!user.verified) {
-            let token = await Token.findOne({userId: user._id})
-            if(!token){
-                token=await new Token({
+            let token = await Token.findOne({ userId: user._id })
+            if (!token) {
+                token = await new Token({
                     userId: user._id,
                     token: crypto.randomBytes(32).toString("hex"),
                 }).save();
-        
+
                 // Create a verification URL
                 const url = `${process.env.CLIENT_URL}/auth/${user.id}/verify-email/${token.token}`;
-        
-        
+
+
                 // Send the verification email
                 await sendEmail(user.email, "Verify Your Email", url);
             }

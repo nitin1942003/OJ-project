@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+const Schema = mongoose.Schema;
 
 const testCaseSchema = new mongoose.Schema({
   input: {
@@ -28,6 +29,12 @@ const problemSchema = new mongoose.Schema({
     type: [testCaseSchema],
     required: false,
     default: []
+  },
+  userId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: "User",
+    unique: false,
   }
 });
 

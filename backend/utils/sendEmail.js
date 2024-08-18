@@ -1,7 +1,7 @@
 import { text } from 'express';
 import nodemailer from 'nodemailer';
 
-const sendEmail = async (email, subject, text) => {
+const sendEmail = async (email, subject, text, htmlContent) => {
     try {
         const transporter = nodemailer.createTransport({
             host: process.env.EMAIL_HOST,
@@ -14,10 +14,12 @@ const sendEmail = async (email, subject, text) => {
             }    
         });
         await transporter.sendMail({
-            from: process.env.EMAIL_USER,
+            from:  `"Nitin Sharma" <${process.env.EMAIL_USER}>`,
             to: email,
             subject: subject,
-            text: text
+            text: text,
+            html: htmlContent,
+            replyTo: process.env.EMAIL_USER
         });
         console.log("Email sent successfully");
     } catch (error) {

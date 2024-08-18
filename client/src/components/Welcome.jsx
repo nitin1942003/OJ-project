@@ -5,8 +5,8 @@ export const WelcomePage = () => {
     const { auth } = useAuth();
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-            <main className="flex flex-col items-center p-8 bg-white rounded-lg shadow-lg text-center max-w-2xl">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-white text-white">
+            <main className="flex flex-col items-center p-8bg-gradient-to-r from-blue-500 to-purple-600 text-white text-center max-w-2xl">
                 <h1 className="text-4xl font-extrabold text-indigo-700">
                     Welcome, {auth.user?.firstName}!
                 </h1>

@@ -10,6 +10,8 @@ import { ProblemsPage } from './components/Problems'
 import { ProblemDetailPage } from './components/Problem'
 import {ProfilePage} from './components/Profile'
 import EmailVerification from './components/EmailVerification';
+import { MyProblemsPage } from './components/MyProblems'
+import { SolvedProblems } from './components/SolvedProblems'
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
           <Route path="/" element={<WelcomePage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="problems" element={<ProblemsPage />} />
+          <Route path='profile/my' element={<MyProblemsPage/>}/>
+          <Route path="/profile/solved-problems" element={<SolvedProblems/>} />
           <Route path="problems/:id" element={<ProblemDetailPage />} />
         </Route>
         {/* Catch All */}

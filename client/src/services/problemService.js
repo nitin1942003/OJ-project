@@ -18,6 +18,18 @@ export const getProblems = async () => {
     }
 };
 
+//Fetch solved problems
+export const getSolvedProblems = async ()=>{
+    try {
+        const response=await axios.get(`${BASE_URL}/solved-problems`, axios_options);
+        // console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching solved problems:', error);
+        throw error;
+    }
+}
+
 // Fetch a given problem
 export const getProblem = async (id) => {
     try {
@@ -63,6 +75,18 @@ export const deleteProblem = async (id) => {
         return response.data;
     } catch (error) {
         console.error(`Error deleting problem with id ${id}:`, error);
+        throw error;
+    }
+};
+
+// Fetch problems created by the user
+export const getUserProblems = async () => {
+    try {
+        const response = await axios.get(`${BASE_URL}/user-problems`, axios_options);
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching user problems:', error);
         throw error;
     }
 };
