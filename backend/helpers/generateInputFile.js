@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
-const dirInputs = path.join(__dirname, 'inputs') //D:\CodeCognizance\backend\helpers\codes - path signifies my codes
+const dirInputs = path.join(__dirname, 'inputs') 
 
 if (!fs.existsSync(dirInputs)) {
   fs.mkdirSync(dirInputs, {recursive: true}) //also create any parent directories if they dont exist

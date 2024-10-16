@@ -25,24 +25,40 @@ export const SolvedProblems = () => {
     return (
         <div className="p-8">
             <h1 className="text-2xl font-bold mb-4">Solved Problems</h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {problems.map((problem) => (
-                    <div
-                        key={problem.problemId._id}
-                        className={`p-4 border border-gray-300 shadow rounded-lg ${
-                            problem.status ? 'bg-green-100' : 'bg-red-100'
-                        }`}
-                    >
-                        <h2 className="text-xl font-semibold">
-                            <Link to={`/problems/${problem.problemId._id}`}>{problem.problemId.title}</Link>
-                        </h2>
-                        <p className="mb-4">{problem.problemId.description}</p>
-                        <p>
-                            Test Cases Passed: {problem.testCasesPassed}/{problem.totalTestCases}
-                        </p>
-                        <p>Status: {problem.status ? 'Passed' : 'Failed'}</p>
-                    </div>
-                ))}
+            <div className="overflow-x-auto">
+                <table className="min-w-full bg-white border border-gray-300">
+                    <thead>
+                        <tr className="bg-gray-200 text-gray-600 text-left">
+                            <th className="py-3 px-6 font-semibold">Title</th>
+                            <th className="py-3 px-6 font-semibold">Test Cases Passed</th>
+                            <th className="py-3 px-6 font-semibold">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {problems.map((problem) => (
+                            <tr key={problem.problemId._id} className="border-b border-gray-300 hover:bg-gray-50 transition-colors">
+                                <td className="py-3 px-6">
+                                    <Link
+                                        to={`/problems/${problem.problemId._id}`}
+                                        className="text-blue-600 hover:underline"
+                                    >
+                                        {problem.problemId.title}
+                                    </Link>
+                                </td>
+                                <td className="py-3 px-6">
+                                    {problem.testCasesPassed}/{problem.totalTestCases}
+                                </td>
+                                <td className="py-3 px-6">
+                                    {problem.status ? (
+                                        <span className="text-green-600">Passed</span>
+                                    ) : (
+                                        <span className="text-red-600">Failed</span>
+                                    )}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );

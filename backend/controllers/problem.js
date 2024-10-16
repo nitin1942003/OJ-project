@@ -1,47 +1,48 @@
 import Problem from '../models/problem.js';
-import User from '../models/user.js'; // Import the User model (if needed for validation)
+import User from '../models/user.js'; // Import the User model
 
-// Get all problems
+// Get all problems (Do not send test cases in the response)
 export const getProblems = async (req, res) => {
     try {
-        const problems = await Problem.find();
+        // Exclude test cases from the response
+        const problems = await Problem.find().select('-testCases');
         res.json(problems);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error });
     }
 };
 
-// Get a single problem with an id
+// Get a single problem with an id (Do not send test cases in the response)
 export const getProblem = async (req, res) => {
     try {
-        const problem = await Problem.findById(req.params.id);
+        // Exclude test cases from the response
+        const problem = await Problem.findById(req.params.id).select('-testCases');
         if (!problem) {
             return res.status(404).send('Problem not found');
         }
         res.json(problem);
     } catch (error) {
-        console.error('Error fetching problem:', error);
         res.status(500).json({ message: 'Server Error', error });
     }
 };
 
-// Get problems created by the authenticated user
+// Get problems created by the authenticated user (Do not send test cases in the response)
 export const getUserProblems = async (req, res) => {
     const userId = req.user; // Get userId from the request
 
     try {
-        const problems = await Problem.find({ userId: userId });
+        // Exclude test cases from the response
+        const problems = await Problem.find({ userId: userId }).select('-testCases');
         res.json(problems);
     } catch (error) {
-        console.error('Error fetching user problems:', error);
         res.status(500).json({ message: 'Server Error', error });
     }
 };
 
 // Create a new problem
 export const createProblem = async (req, res) => {
-    let { title, description, testCases } = req.body; // Accept test cases from the request body
-    const userId = req.user; // Get userId from req.user
+    let { title, description, testCases } = req.body;
+    const userId = req.user;
 
     if (!userId) {
         return res.status(401).json({ message: 'Unauthorized' });
@@ -55,10 +56,8 @@ export const createProblem = async (req, res) => {
         // Create the new problem
         const newProblem = new Problem({ title, description, testCases, userId });
         const problem = await newProblem.save();
-        console.log('Added a new problem with its test cases');
-        res.status(201).json(problem);
+        res.status(201).json({ message: 'Problem created successfully' }); // Do not return the problem with test cases
     } catch (error) {
-        console.error('Error creating problem:', error);
         res.status(500).json({ message: 'Server Error', error });
     }
 };
@@ -67,7 +66,7 @@ export const createProblem = async (req, res) => {
 export const updateProblem = async (req, res) => {
     const { id } = req.params;
     let { title, description, testCases } = req.body;
-    const userId = req.user; // Get userId from req.user
+    const userId = req.user;
 
     if (!userId) {
         return res.status(401).json({ message: 'Unauthorized' });
@@ -96,9 +95,8 @@ export const updateProblem = async (req, res) => {
 
         await problem.save();
 
-        res.json(problem);
+        res.json({ message: 'Problem updated successfully' }); // Do not return the updated problem with test cases
     } catch (error) {
-        console.error('Error updating problem:', error);
         res.status(500).json({ message: 'Server Error', error });
     }
 };
@@ -106,7 +104,7 @@ export const updateProblem = async (req, res) => {
 // Delete a problem
 export const deleteProblem = async (req, res) => {
     const { id } = req.params;
-    const userId = req.user; // Get userId from req.user
+    const userId = req.user;
 
     if (!userId) {
         return res.status(401).json({ message: 'Unauthorized' });

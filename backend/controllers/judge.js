@@ -20,6 +20,7 @@ const judge = async (req, res) => {
 
         // Generate the code file
         const codeFilePath = await generateFile(language, code);
+        console.log(`Generated code file at: ${codeFilePath}`);
 
         // Process each test case
         const results = [];
@@ -38,8 +39,8 @@ const judge = async (req, res) => {
         // Determine overall success
         const success = testCasesPassed === totalTestCases;
 
-        // Update the user's record, upsert if it doesn't exist
-        await User.findOneAndUpdate(
+        // Attempt to update the existing problem status
+        const updateUser = await User.findOneAndUpdate(
             { _id: userId, "solvedProblems.problemId": problemId },
             {
                 $set: {
@@ -49,31 +50,33 @@ const judge = async (req, res) => {
                 }
             },
             { 
-                upsert: true, // Create the entry if it doesn't exist
                 new: true // Return the updated document
             }
         );
 
         // If the problem wasn't already in solvedProblems, add it
-        await User.findOneAndUpdate(
-            { _id: userId, "solvedProblems.problemId": { $ne: problemId } },
-            {
-                $push: {
-                    solvedProblems: {
-                        problemId,
-                        status: success,
-                        testCasesPassed,
-                        totalTestCases
+        if (!updateUser) {
+            await User.findOneAndUpdate(
+                { _id: userId },
+                {
+                    $push: {
+                        solvedProblems: {
+                            problemId,
+                            status: success,
+                            testCasesPassed,
+                            totalTestCases
+                        }
                     }
                 }
-            }
-        );
+            );
+        }
 
         res.json({ success, codeFilePath, results });
     } catch (error) {
-        console.error(error);
+        console.error('Error in judge function:', error);
         res.status(500).json({ success: false, message: "An error occurred", error: error.message });
     }
 };
+
 
 export default judge;

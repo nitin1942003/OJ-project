@@ -15,7 +15,7 @@ const Layout = () => {
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-50">
-            <header className="w-full py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-center text-3xl font-bold shadow-lg sticky top-0 z-10">
+            <header className="w-full py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-center text-3xl font-bold shadow-lg sticky top-0 z-10">
                 <div className="relative flex items-center justify-between px-4">
                     {auth?.user && (
                         <div className="flex items-center space-x-4 font-medium text-lg">
@@ -60,7 +60,7 @@ const Layout = () => {
             <main className="flex-grow p-6 bg-white shadow-md rounded-lg mx-4 mt-4">
                 <Outlet />
             </main>
-            <footer className="w-full py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-center">
+            <footer className="w-full py-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-center">
                 <p className="text-sm">© 2024 Run it in</p>
             </footer>
         </div>

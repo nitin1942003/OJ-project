@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getProblem, run, judge } from '../services/problemService';
+import coinImage from '../assets/coin.png';
 
 export const ProblemDetailPage = () => {
     const { id } = useParams();
@@ -9,18 +10,11 @@ export const ProblemDetailPage = () => {
     const [code, setCode] = useState('');
     const [output, setOutput] = useState('');
     const [loading, setLoading] = useState(false);
-    const [language, setLanguage] = useState('java');
+    const [language, setLanguage] = useState('cpp');
     const [testResults, setTestResults] = useState([]);
     const [expandedIndex, setExpandedIndex] = useState(null);
     const [view, setView] = useState('input');
-
-    const toggleDetails = (index) => {
-        if (expandedIndex === index) {
-            setExpandedIndex(null);
-        } else {
-            setExpandedIndex(index);
-        }
-    };
+    const [hasSubmitted, setHasSubmitted] = useState(false);
 
     useEffect(() => {
         const fetchProblem = async () => {
@@ -33,6 +27,14 @@ export const ProblemDetailPage = () => {
         };
         fetchProblem();
     }, [id]);
+
+    const toggleDetails = (index) => {
+        if (expandedIndex === index) {
+            setExpandedIndex(null);
+        } else {
+            setExpandedIndex(index);
+        }
+    };
 
     if (!problem) {
         return <div>Loading...</div>;
@@ -66,11 +68,30 @@ export const ProblemDetailPage = () => {
 
             if (response && response.results) {
                 setTestResults(response.results);
+                setHasSubmitted(true);
+
+                // Check if all test cases passed
+                if (response.results.every(result => result.isCorrect)) {
+                    triggerCoinPop(); // Trigger the coin pop animation
+                }
             } else {
                 console.error('Invalid response format:', response);
             }
         } catch (error) {
             console.error('Error judging code:', error);
+        }
+    };
+
+    // Function to trigger coin animation
+    const triggerCoinPop = () => {
+        const coin = document.getElementById('coin');
+        if (coin) {
+            coin.style.display = 'block'; // Show the coin
+            coin.style.animation = 'popCoin 1s ease'; // Start animation
+            setTimeout(() => {
+                coin.style.animation = 'none'; // Reset animation
+                coin.style.display = 'none'; // Hide the coin after animation
+            }, 1000); // Animation duration is 1s
         }
     };
 
@@ -153,12 +174,16 @@ export const ProblemDetailPage = () => {
                     <div className="w-full h-72 p-2 border border-gray-300 rounded overflow-y-auto mt-4">
                         <h2 className="text-xl font-semibold mb-2">Verdict</h2>
                         {loading && <div>Loading...</div>}
+
+                        {/* Check if all test cases are correct */}
+                        {hasSubmitted && testResults.every(result => result.isCorrect) && (
+                            <div className="text-green-600 py-2 font-bold">Accepted</div>
+                        )}
                         {testResults.map((result, index) => (
                             <div key={index} className="mb-4">
                                 <button
                                     onClick={() => toggleDetails(index)}
-                                    className={`w-30 text-left px-4 py-2 font-semibold rounded focus:outline-none ${result.isCorrect ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
-                                        }`}
+                                    className={`w-30 text-left px-4 py-2 font-semibold rounded focus:outline-none ${result.isCorrect ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}
                                 >
                                     <span className="truncate">Test Case {index}</span>
                                 </button>
@@ -175,6 +200,47 @@ export const ProblemDetailPage = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Coin Image with Inline Styles */}
+            <div
+                id="coin"
+                style={{
+                    display: 'none',
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '100px',
+                    height: '100px',
+                    animation: 'none'
+                }}
+            >
+                <img
+                    src={coinImage} // Use the imported image
+                    alt="Coin"
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                    }}
+                />
+            </div>
+
+            {/* Coin Animation Inline CSS */}
+            <style>
+                {`
+                @keyframes popCoin {
+                    0% {
+                        transform: translate(-50%, -50%) scale(0);
+                    }
+                    50% {
+                        transform: translate(-50%, -50%) scale(1.5);
+                    }
+                    100% {
+                        transform: translate(-50%, -50%) scale(1);
+                    }
+                }
+                `}
+            </style>
         </div>
     );
 };
