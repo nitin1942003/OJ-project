@@ -8,7 +8,7 @@ const solvedProblemSchema = new mongoose.Schema({
     required: true,
   },
   status: {
-    type: Boolean, // Store true if used judge
+    type: String, // P for all testcase passed, F for fail, A for attempting 
     required: true,
   },
   testCasesPassed: {
@@ -17,6 +17,10 @@ const solvedProblemSchema = new mongoose.Schema({
   },
   totalTestCases: {
     type: Number, // Total number of test cases (from Problem model)
+    required: true,
+  },
+  code: {
+    type: String, // Code submitted for the problem
     required: true,
   },
 }); 

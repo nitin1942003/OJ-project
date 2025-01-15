@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getProblem, run, judge } from '../services/problemService';
+import { getProblem, run, judge, save } from '../services/problemService';
 import coinImage from '../assets/coin.png';
 
 export const ProblemDetailPage = () => {
@@ -21,6 +21,7 @@ export const ProblemDetailPage = () => {
             try {
                 const response = await getProblem(id);
                 setProblem(response);
+                setCode(response.savedCode || '');
             } catch (error) {
                 console.error('Error fetching problem:', error);
             }
@@ -39,6 +40,18 @@ export const ProblemDetailPage = () => {
     if (!problem) {
         return <div>Loading...</div>;
     }
+
+    const handleSaveCode = async () => {
+        try {
+            const response = await save({
+                problemId: problem._id,
+                code: code,
+            });
+            alert(response.message || 'Code saved successfully!');
+        } catch (error) {
+            alert('Failed to save code. Please try again.');
+        }
+    };    
 
     const handleRunCode = async () => {
         setLoading(true);
@@ -150,6 +163,12 @@ export const ProblemDetailPage = () => {
                             <option value="py">Python</option>
                             <option value="java">Java</option>
                         </select>
+                        <button
+                            onClick={handleSaveCode} // Add this line
+                            className="mb-4 px-4 py-2 bg-green-500 text-white rounded"
+                        >
+                            Save Code
+                        </button>
                     </div>
                     <textarea
                         value={code}

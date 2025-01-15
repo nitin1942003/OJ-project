@@ -5,6 +5,7 @@ const axios_options = { headers: { 'Content-Type': 'application/json' }, withCre
 const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/problems`;
 const RUN_URL = `${import.meta.env.VITE_BACKEND_URL}/run`;
 const JUDGE_URL = `${import.meta.env.VITE_BACKEND_URL}/judge`;
+const SAVE_CODE_URL = `${import.meta.env.VITE_BACKEND_URL}/save`;
 
 // Fetch all problems
 export const getProblems = async () => {
@@ -99,6 +100,18 @@ export const run = async (formData) => {
         return response.data;
     } catch (error) {
         console.error('Error running code:', error);
+        throw error;
+    }
+};
+
+// Save the code 
+export const save = async (formData) => {
+    try {
+        const response = await axios.post(SAVE_CODE_URL, formData, axios_options);
+        console.log('Save code response:', response);
+        return response.data;
+    } catch (error) {
+        console.error('Error saving code:', error);
         throw error;
     }
 };

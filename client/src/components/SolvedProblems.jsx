@@ -49,10 +49,14 @@ export const SolvedProblems = () => {
                                     {problem.testCasesPassed}/{problem.totalTestCases}
                                 </td>
                                 <td className="py-3 px-6">
-                                    {problem.status ? (
-                                        <span className="text-green-600">Passed</span>
-                                    ) : (
+                                    {problem.status === 'P' ? (
+                                        <span className="text-green-600">All Test Cases Passed</span>
+                                    ) : problem.status === 'F' ? (
                                         <span className="text-red-600">Failed</span>
+                                    ) : problem.status === 'A' ? (
+                                        <span className="text-yellow-600">Attempting</span>
+                                    ) : (
+                                        <span className="text-gray-600">Unknown Status</span>
                                     )}
                                 </td>
                             </tr>

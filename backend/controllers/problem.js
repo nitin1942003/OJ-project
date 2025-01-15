@@ -12,16 +12,35 @@ export const getProblems = async (req, res) => {
     }
 };
 
-// Get a single problem with an id (Do not send test cases in the response)
 export const getProblem = async (req, res) => {
     try {
-        // Exclude test cases from the response
-        const problem = await Problem.findById(req.params.id).select('-testCases');
+        const userId = req.user; // Assuming authenticated user's ID is in req.user
+        const problemId = req.params.id;
+
+        // Fetch the problem from the database, excluding test cases
+        const problem = await Problem.findById(problemId).select('-testCases');
         if (!problem) {
-            return res.status(404).send('Problem not found');
+            return res.status(404).json({ message: 'Problem not found' });
         }
-        res.json(problem);
+
+        // Fetch the user's saved problems
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check if the problem exists in the user's solvedProblems array
+        const savedProblem = user.solvedProblems.find((p) => p.problemId.equals(problemId));
+
+        // Prepare the response object
+        const response = {
+            ...problem.toObject(),
+            savedCode: savedProblem ? savedProblem.code : null, // Include saved code if available
+        };
+
+        res.json(response);
     } catch (error) {
+        console.error('Error in getProblem:', error);
         res.status(500).json({ message: 'Server Error', error });
     }
 };

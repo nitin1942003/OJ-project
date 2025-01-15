@@ -38,38 +38,37 @@ const judge = async (req, res) => {
 
         // Determine overall success
         const success = testCasesPassed === totalTestCases;
+        const status = success ? 'P' : 'F';
 
-        // Attempt to update the existing problem status
-        const updateUser = await User.findOneAndUpdate(
-            { _id: userId, "solvedProblems.problemId": problemId },
-            {
-                $set: {
-                    "solvedProblems.$.status": success,
-                    "solvedProblems.$.testCasesPassed": testCasesPassed,
-                    "solvedProblems.$.totalTestCases": totalTestCases
-                }
-            },
-            { 
-                new: true // Return the updated document
-            }
-        );
+        // Update user's solved problems
+        const user = await User.findById(userId);
 
-        // If the problem wasn't already in solvedProblems, add it
-        if (!updateUser) {
-            await User.findOneAndUpdate(
-                { _id: userId },
-                {
-                    $push: {
-                        solvedProblems: {
-                            problemId,
-                            status: success,
-                            testCasesPassed,
-                            totalTestCases
-                        }
-                    }
-                }
-            );
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
         }
+
+        // Check if the problem is already in the solvedProblems array
+        const existingProblem = user.solvedProblems.find((p) => p.problemId.equals(problemId));
+
+        if (existingProblem) {
+            // Update the existing entry
+            existingProblem.status = status;
+            existingProblem.testCasesPassed = testCasesPassed;
+            existingProblem.totalTestCases = totalTestCases;
+            existingProblem.code = code;
+        } else {
+            // Add a new entry to the solvedProblems array
+            user.solvedProblems.push({
+                problemId,
+                status,
+                testCasesPassed,
+                totalTestCases,
+                code,
+            });
+        }
+
+        // Save the user document
+        await user.save();
 
         res.json({ success, codeFilePath, results });
     } catch (error) {
@@ -77,6 +76,5 @@ const judge = async (req, res) => {
         res.status(500).json({ success: false, message: "An error occurred", error: error.message });
     }
 };
-
 
 export default judge;

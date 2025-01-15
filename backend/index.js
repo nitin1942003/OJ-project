@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import { authRouter } from './routes/auth.js'
 import { problemRouter } from './routes/problems.js'
 import { runRouter } from './routes/run.js'
+import {saveRouter} from './routes/save.js'
 import DBConnection from './database/db.js'
 import cookieParser from 'cookie-parser'
 import { judgeRouter } from './routes/judge.js'
@@ -30,6 +31,7 @@ app.use(cookieParser())
 app.use('/auth', authRouter)
 app.use('/problems', problemRouter)
 app.use('/run', runRouter)
+app.use('/save', saveRouter)
 app.use('/judge', judgeRouter)
 app.get('/', (req, res) => {
     res.send('Hello world')
