@@ -12,12 +12,14 @@ import {ProfilePage} from './components/Profile'
 import EmailVerification from './components/EmailVerification';
 import { MyProblemsPage } from './components/MyProblems'
 import { SolvedProblems } from './components/SolvedProblems'
+import {Home} from './components/Home'
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* public routes */}
+        <Route path="home" element={<Home/>}/>
         <Route path="login" element={<LoginForm />} />
         <Route path="register" element={<RegistrationForm />} />
         <Route path="unauthorized" element={<Unauthorized />} />

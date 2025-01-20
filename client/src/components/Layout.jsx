@@ -9,7 +9,7 @@ const Layout = () => {
     const handleLogout = () => {
         setAuth(null); // Clear the auth state
         localStorage.removeItem('auth');
-        navigate('/login');
+        navigate('/home');
         // Additional logout logic, such as clearing tokens, can be added here
     };
 
@@ -29,10 +29,15 @@ const Layout = () => {
                     )}
 
                     <div className="text-center flex-1">
-                        <Link to="/">
-                        Ru<span className="bg-white text-indigo-700 px-2 rounded">n it in</span>
-                        </Link>
-                        
+                        {auth?.user ? (
+                            <Link to="/">
+                                Ru<span className="bg-white text-indigo-700 px-2 rounded">n it in</span>
+                            </Link>
+                        ) : (
+                            <Link to="/home">
+                                Ru<span className="bg-white text-indigo-700 px-2 rounded">n it in</span>
+                            </Link>
+                        )}
                     </div>
 
                     <div className="flex items-center space-x-2">
