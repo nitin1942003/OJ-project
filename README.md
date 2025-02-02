@@ -11,39 +11,37 @@ RunitIn is an online coding platform where users can solve programming questions
 
 ## Tech Stack
 
-- **Frontend:** React.js / Next.js
-- **Backend:** Node.js / Express.js / Django (choose one based on implementation)
-- **Database:** MongoDB / PostgreSQL
-- **Code Execution Engine:** Docker / Custom Sandbox
-- **Authentication:** Firebase / JWT-based Authentication
+- **Frontend:** React.js with Tailwind CSS
+- **Backend:** Node.js & Express.js 
+- **Database:** MongoDB
+- **Code Execution Engine:** Docker
+- **Authentication:** JWT-based Authentication
 
 ## Installation
 
 ### Prerequisites
 
 Ensure you have the following installed:
-- Node.js & npm (for JavaScript-based backend)
-- Python & Django (if using Python backend)
-- Docker (for isolated code execution)
+- Node.js & npm 
+- Docker
 
 ### Steps
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/runitin.git
-   cd runitin
+   git clone https://github.com/nitin1942003/OJ-project.git
+   cd backend
    ```
 
 2. Install dependencies:
    ```sh
    npm install  # for frontend/backend
-   pip install -r requirements.txt  # if using Python backend
    ```
 
 3. Start the development server:
    ```sh
-   npm start  # for frontend/backend
-   python manage.py runserver  # if using Django backend
+   npm run dev  # for frontend
+   node index.js # for backend
    ```
 
 4. Open the application in your browser:
@@ -55,24 +53,16 @@ Ensure you have the following installed:
 
 - Sign up and log in to start solving or creating questions.
 - Choose a programming problem and submit your solution.
-- View execution results, success rate, and leaderboard rankings.
+- View problems you created, problems you are attempting or solve with test case passed status.
 - Create and share custom challenges with the community.
 
 ## Deployment
 
-The application is live at: [RunitIn Online](https://runitin.online/)
-
-## Contribution
-
-Contributions are welcome! Feel free to open an issue or submit a pull request.
-
-## License
-
-This project is licensed under the MIT License.
+The application is live at: [RunitIn](https://runitin.online/)
 
 ## Contact
 
-For any queries, reach out to [your-email@example.com] or open an issue on GitHub.
+For any queries, reach out to [nitinsharma1942003@gmail.com] or open an issue on GitHub.
 
 ---
 Happy Coding! 🚀
