@@ -51,7 +51,8 @@ export const getUserProblems = async (req, res) => {
 
     try {
         // Exclude test cases from the response
-        const problems = await Problem.find({ userId: userId }).select('-testCases');
+        //  problems = await Problem.find({ userId: userId }).select('-testCases'); //OLD
+        const problems = await Problem.find({ userId: userId }); // Retrieve all problems created by the user
         res.json(problems);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error });
@@ -86,39 +87,45 @@ export const updateProblem = async (req, res) => {
     const { id } = req.params;
     let { title, description, testCases } = req.body;
     const userId = req.user;
-
+  
     if (!userId) {
-        return res.status(401).json({ message: 'Unauthorized' });
+      return res.status(401).json({ message: 'Unauthorized' });
     }
-
+  
     if (typeof testCases === 'string') {
-        testCases = JSON.parse(testCases);
+      testCases = JSON.parse(testCases);
     }
-
+  
     try {
-        const problem = await Problem.findById(id);
-
-        if (!problem) {
-            return res.status(404).json({ message: 'Problem not found' });
-        }
-
-        // Check if the user is the creator
-        if (problem.userId.toString() !== userId) {
-            return res.status(403).json({ message: 'Forbidden: You are not the owner of this problem' });
-        }
-
-        // Update the problem's title, description, and test cases
-        problem.title = title || problem.title;
-        problem.description = description || problem.description;
-        problem.testCases = testCases || problem.testCases;
-
-        await problem.save();
-
-        res.json({ message: 'Problem updated successfully' }); // Do not return the updated problem with test cases
+      const problem = await Problem.findById(id);
+  
+      if (!problem) {
+        return res.status(404).json({ message: 'Problem not found' });
+      }
+  
+      // Check if the user is the creator
+      if (problem.userId.toString() !== userId) {
+        return res.status(403).json({
+          message: 'Forbidden: You are not the owner of this problem',
+        });
+      }
+  
+      // Update the problem's title, description, and test cases
+      problem.title = title || problem.title;
+      problem.description = description || problem.description;
+      problem.testCases = testCases || problem.testCases;
+  
+      await problem.save();
+  
+      // Fetch the updated problem
+      const updatedProblem = await Problem.findById(id);
+  
+      res.json(updatedProblem); // Return the updated problem
+  
     } catch (error) {
-        res.status(500).json({ message: 'Server Error', error });
+      res.status(500).json({ message: 'Server Error', error });
     }
-};
+  };  
 
 // Delete a problem
 export const deleteProblem = async (req, res) => {
