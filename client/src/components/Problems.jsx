@@ -25,11 +25,12 @@ export const ProblemsPage = () => {
       <h1 className="text-3xl font-bold mb-6 text-center">Problems</h1>
 
       {loading ? (
-        <div className="flex justify-center">
-          <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-500" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
+        <div className="flex justify-center items-center h-20">
+        <div className="relative w-10 h-10">
+          <div className="absolute inset-0 rounded-full border-4 border-blue-500 opacity-25 animate-ping"></div>
+          <div className="relative w-10 h-10 rounded-full border-4 border-blue-500 animate-spin"></div>
         </div>
+      </div>      
       ) : Array.isArray(problems) && problems.length === 0 ? (
         <div className="flex justify-center">
           <p className="text-lg text-gray-500 mt-6">No problems available. Please check back later.</p>

@@ -21,7 +21,7 @@ const solvedProblemSchema = new mongoose.Schema({
   },
   code: {
     type: String, // Code submitted for the problem
-    required: true,
+    required: false,
   },
 }); 
 
