@@ -15,7 +15,9 @@ const app = express()
 const PORT = process.env.PORT;
 
 const corsOptions = {
-    origin: process.env.NODE_ENV === 'production' ? 'https://www.runitin.online' : 'http://localhost:5173',
+    origin: process.env.NODE_ENV === 'production' 
+        ? 'https://run-it-in.vercel.app'   // ✅ new frontend URL
+        : 'http://localhost:5173',
     credentials: true,
 };
 
