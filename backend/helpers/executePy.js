@@ -20,7 +20,7 @@ const executePython = (filepath, input_filePath) => {
     return new Promise((resolve, reject) => {
         // Command to execute the Python file
         exec(
-            `python "${filepath}" < "${input_filePath}"`, // Use 'python3' for Linux/macOS if needed
+            `python3 "${filepath}" < "${input_filePath}"`,
             (error, stdout, stderr) => {
                 if (error) {
                     reject({ error, stderr });

@@ -24,6 +24,8 @@ RunitIn is an online coding platform where users can solve programming questions
 Ensure you have the following installed:
 - Node.js & npm 
 - Docker
+- Python 3 (available as `python3`) to run Python submissions when starting the backend directly
+- JDK 11 (including `javac` and `java`) to run Java submissions when starting the backend directly
 
 ### Steps
 
@@ -43,6 +45,10 @@ Ensure you have the following installed:
    npm run dev  # for frontend
    node index.js # for backend
    ```
+
+The backend Docker image installs the JDK for Java submissions. When deploying the backend
+without this image, install Python 3 and a JDK, and ensure `python3`, `javac`, and `java` are
+available on `PATH`.
 
 4. Open the application in your browser:
    ```

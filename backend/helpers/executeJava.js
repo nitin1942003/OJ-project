@@ -19,13 +19,10 @@ if (!fs.existsSync(outputPath)) {
 const extractClassName = (filepath) => {
   try {
     const content = fs.readFileSync(filepath, 'utf8');
-    console.log('Java file content:', content);
     // Match both public and non-public classes
     const classMatch = content.match(/(?:public\s+)?class\s+(\w+)/);
-    console.log('Class match:', classMatch);
     if (classMatch && classMatch[1]) {
       const className = classMatch[1];
-      console.log('Extracted class name:', className);
       return className;
     }
     throw new Error('Could not find class in Java file');
@@ -45,16 +42,13 @@ const makeClassNonPublic = (filepath) => {
 
 // Function to execute a Java file and capture its output
 const executeJava = (filepath, input_filePath) => {
-  console.log('Executing Java file:', filepath);
   const className = extractClassName(filepath);
-  console.log('Using class name:', className);
 
   // Make the class non-public to avoid filename requirement
   makeClassNonPublic(filepath);
 
   return new Promise((resolve, reject) => {
     const compileAndRunCommand = `javac "${filepath}" -d "${outputPath}" && java -cp "${outputPath}" ${className} < "${input_filePath}"`;
-    console.log('Executing command:', compileAndRunCommand);
 
     exec(
       compileAndRunCommand,
